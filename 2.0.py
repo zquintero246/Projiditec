@@ -3,8 +3,8 @@ from firebase_admin import credentials, db
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from cryptography.hazmat.primitives import hashes, padding
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from ttkthemes import ThemedTk
+from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from os import urandom
@@ -15,7 +15,7 @@ cred = credentials.Certificate(r"C:\Users\cricr\PycharmProjects\pythonProject\en
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://encriptador-63d6f-default-rtdb.firebaseio.com'
 })
-
+#Genera una clave de cifrado aleatoria de 32 bytes
 def generar_clave():
     return urandom(32)
 
@@ -64,38 +64,48 @@ def desencriptar_mensaje():
     except:
         messagebox.showerror("Error", "No se pudo desencriptar el mensaje. Verifique la clave y el mensaje cifrado.")
 
-root = tk.Tk()
+root = ThemedTk(theme="radiance")
 root.title("Encriptador/Desencriptador de Mensajes")
 root.geometry("500x300")
-root.configure(bg="lightgrey")
-style = ttk.Style()
-style.theme_use("clam")
 
-clave_usuario_label = tk.Label(root, text="Introduce tu clave de encriptación (opcional):", bg="lightgrey")
-clave_usuario_entry = tk.Entry(root)
-clave_usuario_label.pack(pady=10)
-clave_usuario_entry.pack(pady=10)
+# Cambiar color del fondo
+root.configure(bg="#d3d3d3")  # light gray
 
-mensaje_label = tk.Label(root, text="Introduce el mensaje a encriptar:", bg="lightgrey")
-mensaje_entry = tk.Entry(root)
-encriptar_button = tk.Button(root, text="Encriptar", command=encriptar_mensaje)
+# Cambiar fuente
+custom_font = ("Arial", 12)
 
-mensaje_label.pack(pady=10)
-mensaje_entry.pack(pady=10)
-encriptar_button.pack(pady=10)
+clave_usuario_label = tk.Label(root, text="Introduce tu clave de encriptación (opcional):", font=custom_font, bg="#d3d3d3")
+clave_usuario_entry = tk.Entry(root, font=custom_font)
+clave_usuario_entry.insert(0, "")
 
-clave_label = tk.Label(root, bg="lightgrey")
-clave_label.pack(pady=10)
+mensaje_label = tk.Label(root, text="Introduce el mensaje a encriptar:", font=custom_font, bg="#d3d3d3")
+mensaje_entry = tk.Entry(root, font=custom_font)
+mensaje_entry.insert(0, "")
+encriptar_button = ttk.Button(root, text="Encriptar", command=encriptar_mensaje)
 
-token_label = tk.Label(root, text="Introduce el mensaje a desencriptar:", bg="lightgrey")
-token_entry = tk.Entry(root)
-desencriptar_button = tk.Button(root, text="Desencriptar", command=desencriptar_mensaje)
+clave_label = tk.Label(root, font=custom_font, bg="#d3d3d3")
 
-token_label.pack(pady=10)
-token_entry.pack(pady=10)
-desencriptar_button.pack(pady=10)
+token_label = tk.Label(root, text="Introduce el mensaje a desencriptar:", font=custom_font, bg="#d3d3d3")
+token_entry = tk.Entry(root, font=custom_font)
+token_entry.insert(0, "")
+desencriptar_button = ttk.Button(root, text="Desencriptar", command=desencriptar_mensaje)
 
-mensaje_desencriptado_label = tk.Label(root, bg="lightgrey")
-mensaje_desencriptado_label.pack(pady=10)
+mensaje_desencriptado_label = tk.Label(root, font=custom_font, bg="#d3d3d3")
+
+# Center the widgets
+clave_usuario_label.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+clave_usuario_entry.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+mensaje_label.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+mensaje_entry.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
+encriptar_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+clave_label.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+
+token_label.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
+token_entry.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+desencriptar_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+
+mensaje_desencriptado_label.place(relx=0.5, rely=1.0, anchor=tk.S)
 
 root.mainloop()
